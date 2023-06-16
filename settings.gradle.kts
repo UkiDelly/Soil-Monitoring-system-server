@@ -1,0 +1,1 @@
+rootProject.name = "soil-analysis-ktor-server"
