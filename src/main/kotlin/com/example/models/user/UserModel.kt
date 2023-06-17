@@ -24,10 +24,13 @@ data class UserModel(
     val userName: String,
     val password: String,
     @Contextual
-    val createAt: Date
+    val createAt: Date = Date()
 
 
 ) {
+
+    constructor(name: String, userName: String, password: String) : this(null, name, userName, password, Date())
+
 
     //    fromDocument를 구현하기 위해 companion object를 사용한다.
     companion object {

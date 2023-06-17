@@ -7,7 +7,23 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import org.bson.types.ObjectId
 import java.util.*
+
+
+@Serializer(forClass = ObjectId::class)
+object ObjectIdSerializer : KSerializer<ObjectId> {
+    override val descriptor: SerialDescriptor =
+        PrimitiveSerialDescriptor("ObjectId", PrimitiveKind.STRING)
+
+    override fun serialize(encoder: Encoder, value: ObjectId) {
+        encoder.encodeString(value.toString())
+    }
+
+    override fun deserialize(decoder: Decoder): ObjectId {
+        return ObjectId(decoder.decodeString())
+    }
+}
 
 
 // java.util.Date를 직렬화하기 위한 Serializer

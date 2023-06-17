@@ -1,6 +1,7 @@
 package com.example.plugins
 
 import com.example.utils.DateSerializer
+import com.example.utils.ObjectIdSerializer
 import io.ktor.serialization.kotlinx.json.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.contentnegotiation.*
@@ -24,6 +25,7 @@ fun Application.configureSerialization() {
                 serializersModule = SerializersModule {
                     // serializersModule 에서 사용할 serializer 를 등록
                     contextual(DateSerializer)
+                    contextual(ObjectIdSerializer)
                 }
 
             }

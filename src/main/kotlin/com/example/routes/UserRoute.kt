@@ -15,7 +15,14 @@ import org.bson.conversions.Bson
 import org.litote.kmongo.and
 import org.litote.kmongo.findOne
 
-
+/**
+ *  User Routing
+ *  유저와 관련된 라우팅을 다루는 함수
+ *  - 로그인
+ *  - 회원가입
+ *
+ *  @param mongoClient: MongoClient, MongoDB 클라이언트
+ */
 fun Route.userRouting(mongoClient: MongoClient) {
 
     // soil-analysis라는 이름의 database를 가져온다.
@@ -59,8 +66,19 @@ fun Route.userRouting(mongoClient: MongoClient) {
 
         try {
             val requestBody = call.receive<UserRegisterModel>()
+
             print(requestBody)
-            call.respond(HttpStatusCode.OK, ResponseModel(data = requestBody, message = "회원가입 성공"))
+
+            val newUser = UserModel(
+                name = requestBody.name,
+                userName = requestBody.userName,
+                password = requestBody.password
+            )
+
+            collection.insertOne(newUser.toDocument())
+
+            call.respond(HttpStatusCode.OK, ResponseModel(data = newUser, message = "회원가입 성공"))
+
         } catch (e: Exception) {
             call.respond(HttpStatusCode.BadRequest, ResponseModel(data = null, message = "잘못된 요청입니다."))
         }
